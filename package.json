@@ -11,6 +11,14 @@
     "rollup-plugin-svelte": "^7.1.0",
     "svelte": "^3.46.4"
   },
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/gustavneustadt/svelte-smooth-corners"
+  },
+  "homepage": ""
+  "bugs": {
+      "url": "https://github.com/gustavneustadt/svelte-smooth-corners/issues"
+  },
   
   "main": "dist/index.js",
   "module": "dist/index.mjs",
