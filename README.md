@@ -1,4 +1,7 @@
-# Smooth corners
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/35671734/153657813-20409815-9d24-468e-a16c-fa990e6eecbd.png">
+
+
+# Svelte Smooth Corners
 Svelte component to create a wrapping element with smooth corners rather then relying on radial corners – best practices in design.
 
 To my current knowledge all current browser versions support this package.
