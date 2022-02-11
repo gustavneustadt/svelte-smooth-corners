@@ -5,18 +5,20 @@
 	  );
 	}
 	
-	let name = "clip-path-" + uuidv4()
-	let element
-	let w, h
+	export let name = "clip-path-" + uuidv4()
+	export let w, h
 	
 	export let cornerRadius
 	export let cornerSharpness
+	export let clipPathOnly = false
+	
+	$: console.log("h:", h, "w:", w)
 	
 	function getPath(w, h, cornerRadius, cornerSharpness) {
 		let shortestEdge = w >= h ? h : w
 		
-		cornerSharpness = cornerSharpness >= shortestEdge / 2 ? shortestEdge / 2 : cornerSharpness
 		cornerRadius = cornerRadius >= shortestEdge / 2 ? shortestEdge / 2 : cornerRadius
+		cornerSharpness = cornerRadius * cornerSharpness
 		
 		let cornerLength = {
 			x: cornerRadius / w,
@@ -99,8 +101,9 @@
 	</clipPath>
   </defs>
 </svg>
-
-<div class="smooth-corners" bind:clientWidth={w} bind:clientHeight={h} style="--clippath: url(#{name}); --width: {w}px; --height: {h}px">
-	<slot></slot>
-</div>
+{#if clipPathOnly == false}
+	<div class="smooth-corners" bind:clientWidth={w} bind:clientHeight={h} style="--clippath: url(#{name}); --width: {w}px; --height: {h}px">
+		<slot></slot>
+	</div>
+{/if}
 
