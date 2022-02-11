@@ -1,0 +1,22 @@
+{
+  "name": "svelte-smooth-corners",
+  "version": "1.0.0",
+  "description": "Svelte component to create a wrapping element with smooth corners rather then relying on radial corners – best practices in design.",
+  "keywords": [],
+  "author": "Gustav Neustadt",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "rollup": "^2.67.2",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^3.46.4"
+  },
+  
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "svelte": "src/index.js",
+  "scripts": {
+      "build": "rollup -c",
+      "dev": "rollup -c -w"
+  }
+}
