@@ -5,7 +5,7 @@ To my current knowledge all current browser versions support this package.
 
 ## Installation
 ```
-npm install gustavneustadt/svelte-smooth-corners
+npm install svelte-smooth-corners
 ```
 
 ## Usage 
