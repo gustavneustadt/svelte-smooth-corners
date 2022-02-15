@@ -6,15 +6,20 @@
 	}
 	
 	export let name = "clip-path-" + uuidv4()
-	export let w, h
+	export let w = 1
+	export let h = 1
 	
+	export let svg = false
+	export let clipPath = ""
+	
+	export let clientSize = true
 	export let cornerRadius
 	export let cornerSharpness
 	export let clipPathOnly = false
 	
-	$: console.log("h:", h, "w:", w)
-	
 	function getPath(w, h, cornerRadius, cornerSharpness) {
+		let normalized = svg
+		
 		let shortestEdge = w >= h ? h : w
 		
 		cornerRadius = cornerRadius >= shortestEdge / 2 ? shortestEdge / 2 : cornerRadius
@@ -25,9 +30,15 @@
 			y: cornerRadius / h
 		}
 		
+		
+		let normalization = {
+			x: normalized ? 1 : w,
+			y: normalized ? 1 : h
+		}
+		
 		let cornerAngle = {
-			x: (cornerSharpness / w),
-			y: (cornerSharpness / h)
+			x: (cornerSharpness / w) * normalization.x,
+			y: (cornerSharpness / h) * normalization.y
 		}
 		
 		let corners = {
@@ -35,27 +46,27 @@
 			a: cornerAngle,
 			tl: {
 				xa: 0.0,
-				ya: cornerLength.y,
-				xb: cornerLength.x,
+				ya: cornerLength.y * normalization.y,
+				xb: cornerLength.x * normalization.x,
 				yb: 0.0
 			},
 			tr: {
-				xa: 1 - cornerLength.x,
+				xa: (1 - cornerLength.x) * normalization.x,
 				ya: 0.0,
-				xb: 1,
-				yb: cornerLength.y
+				xb: 1 * normalization.x,
+				yb: cornerLength.y * normalization.y
 			},
 			bl: {
-				xa: cornerLength.x,
-				ya: 1,
+				xa: cornerLength.x * normalization.x,
+				ya: 1 * normalization.y,
 				xb: 0,
-				yb: 1 - cornerLength.y
+				yb: (1 - cornerLength.y) * normalization.y
 			},
 			br: {
-				xa: 1,
-				ya: 1 - cornerLength.y,
-				xb: 1 - cornerLength.x,
-				yb: 1
+				xa: 1 * normalization.x,
+				ya: (1 - cornerLength.y) * normalization.y,
+				xb: (1 - cornerLength.x) * normalization.x,
+				yb: 1 * normalization.y
 			}
 		}
 		
@@ -69,10 +80,14 @@
 		C ${corners.bl.xa - corners.a.x} ${corners.bl.ya}, ${corners.bl.xb} ${corners.bl.yb + corners.a.y}, ${corners.bl.xb} ${corners.bl.yb}
 		Z`
 		
-		return path
+		return path.replace(/\n/g, '')
 	}
 	
-	$: outerCorners = getPath(w, h, cornerRadius, cornerSharpness)
+	$: path = getPath(w, h, cornerRadius, cornerSharpness)
+	
+	$: clipPath = svg ? `url('#${name}')` : `path('${path}')`
+	
+	$: style = `clip-path: ${clipPath}; -webkit-clip-path: ${clipPath};`
 	
 </script>
 
@@ -80,8 +95,9 @@
 <style>
 	.smooth-corners {
 		display: block;
-		clip-path: var(--clippath);
-		-webkit-clip-path: var(--clippath);
+		position: relative;
+		height: 100%;
+		width: 100%;
 	}
 	svg {
 		visibility: none;
@@ -89,21 +105,34 @@
 	}
 </style>
 
-
+{#if svg}
 <svg width="0" height="0">
   <defs>
 	<clipPath id={name} clipPathUnits="objectBoundingBox">
-	{#if w && h}
-	<path
-		d={outerCorners}
-	/>
-	{/if}
+		{#if h && w}
+		<path
+			d={path}
+		/>
+		{/if}
 	</clipPath>
   </defs>
 </svg>
-{#if clipPathOnly == false}
-	<div class="smooth-corners" bind:clientWidth={w} bind:clientHeight={h} style="--clippath: url(#{name}); --width: {w}px; --height: {h}px">
-		<slot></slot>
-	</div>
 {/if}
 
+{#if clipPathOnly == false}
+	{#if clientSize}
+		<div class="smooth-corners" bind:clientWidth={w} bind:clientHeight={h} {style}>
+			<slot></slot>
+		</div>
+	{/if}
+	
+	{#if !clientSize}
+		<div class="smooth-corners" {style}>
+			<slot></slot>
+		</div>
+	{/if}
+{/if}
+
+{#if clipPathOnly == true}
+	<slot></slot>
+{/if}

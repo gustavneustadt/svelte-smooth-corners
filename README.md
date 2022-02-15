@@ -51,7 +51,7 @@ npm install svelte-smooth-corners
 
 ### Use the clip path only
 In case you need the option to add css to your elements _and_ need the smooth corners you can use the clip path only mode.
-For that, add `clipPathOnly={true}` to the `<SmoothCorners>` component. Then you can access the clip path SVG name via the bound `name`-prop of the component. Add this SVG path as CSS var to the element and use it as `clip-path` value.
+For that, add `clipPathOnly={true}` and `svg={true}` (if you need the svg option – otherwise you have to bind the `clipPath` component prop to a variable and add it as CSS `path` to your element) to the `<SmoothCorners>` component. Then you can access the clip path SVG name via the bound `name`-prop of the component. Add this SVG path as CSS var to the element and use it as `clip-path` value.
 ```svelte
 <script>
   import SmoothCorners from "svelte-smooth-corners";
@@ -66,7 +66,7 @@ For that, add `clipPathOnly={true}` to the `<SmoothCorners>` component. Then you
 }
 </style>
 
-<SmoothCorners clipPathOnly={true} w={w} h={h} bind:name={clipPathName} cornerRadius="10" cornerSharpness="9"></SmoothCorners>
+<SmoothCorners clipPathOnly={true} svg={true} w={w} h={h} bind:name={clipPathName} cornerRadius="10" cornerSharpness="9"></SmoothCorners>
 <div class="foo" style="--clipPath: url('#{clipPathName}')">
   Hello Squircle World!
 </div>
