@@ -1,6 +1,6 @@
 {
   "name": "svelte-smooth-corners",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Svelte component to create a wrapping element with smooth corners rather then relying on radial corners – best practices in design.",
   "keywords": [],
   "author": "Gustav Neustadt",
