@@ -2,7 +2,7 @@
 
 
 # Svelte Smooth Corners
-Svelte component to create a wrapping element with smooth corners rather then relying on radial corners – best practices in design.
+Svelte component to create a wrapping element with smooth corners rather then relying on radial corners – best practice in design.
 
 To my current knowledge all current browser versions support this package.
 
